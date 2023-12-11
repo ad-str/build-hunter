@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'environ',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +54,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'environ.middleware.EnvironMiddleware',
 ]
 
 ROOT_URLCONF = 'django_project.urls'
@@ -85,11 +83,11 @@ WSGI_APPLICATION = 'django_project.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": env('POSTGRES_NAME'),
+        "NAME": env('POSTGRES_DB'),
         "USER": env('POSTGRES_USER'),
         "PASSWORD": env('POSTGRES_PASSWORD'),
         "HOST": "localhost",  # set in docker-compose.yml
-        "PORT": 5432,  # default postgres port
+        "PORT": 8080,  # default postgres port
     }
 }
 
