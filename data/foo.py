@@ -8,22 +8,9 @@ with open(json_file_path, 'r') as json_file:
     # Parse the JSON data from the file
     data = json.load(json_file)
 
-# Now, 'data' contains the contents of the JSON file as a Python dictionary or list, depending on the JSON structure.
-
-# for key in data.keys():
-#     print(key)
-#     # armor, overwear?, equip_skill, decorations, weapon_series_mr?, airou_armor?, hyakuryu_skill?
-
-# for v in data['armor_series_name_msg_mr']:
-#     print(v)
-#     print()
-
-
-# armor_head_name_msg_mr - for the names of all armor pieces and their id in their name
-
-# Filter keys starting with 'armor'
-filtered_data = {k: v for k, v in data.items() if k.startswith('armor')}
-
-# Export the filtered data to a JSON file
-with open('filtered_data.json', 'w') as file:
-    json.dump(filtered_data, file, indent=4)
+# list of stuff we want for now
+# player_skill_name_msg(_mr) - names of skills and their ids
+# hyakuryu_skill_name_msg(_mr) - names of rampage skills and their ids
+# decorations and decorations_name_msg(_mr) - names and associated skills of decorations
+# hyakuryu_decos and hyakuryu_decos_name_msg - names and associated rampage skills of rampage decos
+# armor and armor_[body_part]_name_msg(_mr) - for names and stats of armor
