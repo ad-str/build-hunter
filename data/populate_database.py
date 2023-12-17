@@ -1,4 +1,4 @@
-from main_app.models import Skill, Decoration, Armor, ArmorSkill
+#from main_app.models import Skill, Decoration, Armor, ArmorSkill
 import json
 import re
 from collections import defaultdict
