@@ -4,6 +4,7 @@ from django.core.exceptions import ValidationError
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     max_level = models.IntegerField(choices=[(i, i) for i in range(1, 8)])
+    description = models.TextField()
 
     def __str__(self):
         return self.name
@@ -43,9 +44,9 @@ class Armor(models.Model):
     ARMOR_CATEGORIES = {
         'head': "Head",
         'chest': "Chest",
-        'arms': "Legs",
+        'arm': "Arm",
         'waist': "Waist",
-        'legs': "Legs"
+        'leg': "Leg"
     }
     category = models.CharField(max_length=5, choices=ARMOR_CATEGORIES)
     name = models.CharField(max_length=255, unique=True)

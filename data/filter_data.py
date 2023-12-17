@@ -44,7 +44,10 @@ def main(input_path, output_path):
     json_data = load_json(input_path)
     regex_patterns = '|'.join([
         r'^player_skill_name_msg',
+        r'^player_skill_explain_msg',
+        r'^equip_skill$',
         r'^hyakuryu_skill_name_msg',
+        r'^hyakuryu_skill_explain_msg',
         r'^decorations_name_msg',
         r'^decorations$',
         r'^hyakuryu_decos_name_msg',
@@ -58,7 +61,7 @@ def main(input_path, output_path):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
-    input_file_path = sys.argv[1] if len(sys.argv) > 1 else './data/mhric.json'
+    input_file_path = sys.argv[1] if len(sys.argv) > 1 else './data/mhrice.json'
     output_file_path = sys.argv[2] if len(
         sys.argv) > 2 else './data/filtered.json'
     main(input_file_path, output_file_path)
