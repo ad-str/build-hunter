@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.exceptions import ValidationError
 
+
 class Skill(models.Model):
     name = models.CharField(max_length=255, unique=True)
     max_level = models.IntegerField(choices=[(i, i) for i in range(1, 8)])
@@ -13,7 +14,7 @@ class Skill(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['name'], name='unique_skill_name')
         ]
-    
+
 
 class Decoration(models.Model):
     name = models.CharField(max_length=255, unique=True)
@@ -23,22 +24,23 @@ class Decoration(models.Model):
 
     def __str__(self):
         return f"{self.name}: {self.skill.name} Lv. {self.skill_level}"
-    
+
     def clean(self):
         if self.skill_level < 1 or self.skill_level > self.skill.max_level:
             raise ValidationError({
                 'skill_level': 'Skill level cannot be more than skill\'s max level.'
             })
 
-
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
-    
+
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['name'], name='unique_decoration_name')
+            models.UniqueConstraint(
+                fields=['name'], name='unique_decoration_name')
         ]
+
 
 class Armor(models.Model):
     ARMOR_CATEGORIES = {
@@ -63,15 +65,18 @@ class Armor(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.category})"
-    
+
     class Meta:
         constraints = [
             models.UniqueConstraint(fields=['name'], name='unique_armor_name')
         ]
 
+
 class ArmorSkill(models.Model):
-    armor = models.ForeignKey(Armor, on_delete=models.CASCADE, related_name="armors")
-    skill = models.ForeignKey(Skill, on_delete=models.CASCADE, related_name="skills")
+    armor = models.ForeignKey(
+        Armor, on_delete=models.CASCADE, related_name="armors")
+    skill = models.ForeignKey(
+        Skill, on_delete=models.CASCADE, related_name="skills")
     level = models.IntegerField()
 
     def clean(self):
@@ -90,5 +95,6 @@ class ArmorSkill(models.Model):
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=['armor', 'skill'], name='unique_armor_skill')
+            models.UniqueConstraint(
+                fields=['armor', 'skill'], name='unique_armor_skill')
         ]
