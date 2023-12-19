@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 
 
 class Skill(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255, unique=True)
     max_level = models.IntegerField(choices=[(i, i) for i in range(1, 8)])
     description = models.TextField()
@@ -10,13 +11,9 @@ class Skill(models.Model):
     def __str__(self):
         return self.name
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['name'], name='unique_skill_name')
-        ]
-
 
 class Decoration(models.Model):
+    id = models.IntegerField(primary_key=True)
     name = models.CharField(max_length=255, unique=True)
     size = models.IntegerField(choices=[(i, i) for i in range(1, 5)])
     skill = models.ForeignKey(Skill, on_delete=models.CASCADE)
@@ -35,14 +32,9 @@ class Decoration(models.Model):
         self.clean()
         super().save(*args, **kwargs)
 
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(
-                fields=['name'], name='unique_decoration_name')
-        ]
-
 
 class Armor(models.Model):
+    armorset_id = models.IntegerField()
     ARMOR_CATEGORIES = {
         'head': "Head",
         'chest': "Chest",
@@ -65,11 +57,6 @@ class Armor(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.category})"
-
-    class Meta:
-        constraints = [
-            models.UniqueConstraint(fields=['name'], name='unique_armor_name')
-        ]
 
 
 class ArmorSkill(models.Model):

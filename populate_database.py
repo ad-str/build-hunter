@@ -1,4 +1,10 @@
-#from main_app.models import Skill, Decoration, Armor, ArmorSkill
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'build_hunter.settings')
+django.setup()
+
+from main_app.models import Skill, Decoration, Armor, ArmorSkill
 import json
 import re
 from collections import defaultdict
@@ -7,8 +13,7 @@ from collections import defaultdict
 with open('data/filtered.json', 'r') as file:
     data = json.load(file)
 
-# parse skill data
-    
+### parse skill data  
 # skill names
 skill_dic = defaultdict(dict)
 keys = ['player_skill_name_msg', 'player_skill_name_msg_mr']
@@ -47,12 +52,19 @@ for skill in skill_list:
     max_level = skill['max_level'] + 1
     skill_dic[skill_id]['max_level'] = max_level
 
-#print(json.dumps(skill_dic, indent=4))
-    
+# create list of Skill model objects
+newSkills = []
+for id, skill in skill_dic.items():
+    newSkill = Skill(
+        id=id,
+        name=skill['name'],
+        description=skill['description'],
+        max_level=skill['max_level']
+    )
+    newSkills.append(newSkill)
 
 
-
-# parse decorations
+### parse decorations
 # deco names
 deco_dic = defaultdict(dict)
 keys = ['decorations_name_msg', 'decorations_name_msg_mr']
@@ -88,6 +100,20 @@ for deco in deco_list:
     deco_dic[deco_id]['skill_id'] = skill_id
     deco_dic[deco_id]['skill_level'] = skill_level
     deco_dic[deco_id]['size'] = size
+
+# create list of Decoration model objects
+newDecos = []
+for id, deco in deco_dic.items():
+    skill = Skill.objects.get(id=deco['skill_id'])
+    newDeco = Decoration(
+        id=id,
+        name=deco['name'],
+        size=deco['size'],
+        skill=skill,
+        skill_level=deco['skill_level']
+    )
+    newDecos.append(newDeco)
+
 
 
 
@@ -168,4 +194,5 @@ for armor in armor_list:
     armor_dic[armorset_id][category]['skill_levels'] = skill_levels
         
 
-print(json.dumps(armor_dic, indent=4))
+print(newSkills)
+print(newDecos)
