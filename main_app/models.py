@@ -43,7 +43,7 @@ class Armor(models.Model):
         'leg': "Leg"
     }
     category = models.CharField(max_length=5, choices=ARMOR_CATEGORIES)
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     skills = models.ManyToManyField(Skill, through='ArmorSkill')
     slot1 = models.IntegerField(choices=[(i, i) for i in range(0, 5)])
     slot2 = models.IntegerField(choices=[(i, i) for i in range(0, 5)])
@@ -57,6 +57,12 @@ class Armor(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.category})"
+    
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['armorset_id', 'category'], name='unique_armor')
+        ]
 
 
 class ArmorSkill(models.Model):
@@ -78,7 +84,7 @@ class ArmorSkill(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return f"{self.armor.name}-{self.skill.name} Lv, {self.level}"
+        return f"{self.armor.name} - {self.skill.name} Lv. {self.level}"
 
     class Meta:
         constraints = [
